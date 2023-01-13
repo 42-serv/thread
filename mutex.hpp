@@ -5,15 +5,18 @@
 
 #include "thread_error.hpp"
 
-#include <errno.h>
 #include <pthread.h>
 
 #include <cassert>
+#include <cerrno>
 
 namespace ft
 {
     class mutex
     {
+    public:
+        typedef ::pthread_mutex_t* native_handle_type;
+
     private:
         ::pthread_mutex_t value;
 
@@ -59,11 +62,12 @@ namespace ft
 
         void unlock()
         {
-            const int e = ::pthread_mutex_unlock(&this->value);
-            if (e != 0)
-            {
-                throw thread_error(e, "pthread_mutex_unlock");
-            }
+            assert(::pthread_mutex_unlock(&this->value) == 0);
+        }
+
+        native_handle_type native_handle()
+        {
+            return &this->value;
         }
 
     private:

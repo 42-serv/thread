@@ -5,16 +5,18 @@
 
 #include "thread_error.hpp"
 
-#include <errno.h>
 #include <pthread.h>
 
 #include <cassert>
+#include <cerrno>
 
 namespace ft
 {
     class readwrite_lock
     {
     public:
+        typedef ::pthread_rwlock_t* native_handle_type;
+
         class read_lock_type
         {
         private:
@@ -128,11 +130,12 @@ namespace ft
 
         void unlock()
         {
-            const int e = ::pthread_rwlock_unlock(&this->value);
-            if (e != 0)
-            {
-                throw thread_error(e, "pthread_rwlock_unlock");
-            }
+            assert(::pthread_rwlock_unlock(&this->value) == 0);
+        }
+
+        native_handle_type native_handle()
+        {
+            return &this->value;
         }
 
     private:

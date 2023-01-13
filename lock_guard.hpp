@@ -9,11 +9,11 @@ namespace ft
     class lock_guard
     {
     private:
-        T& mutex;
+        T& lock;
 
     public:
-        lock_guard(T& mutex) : mutex(mutex) { mutex.lock(); }
-        ~lock_guard() { mutex.unlock(); }
+        lock_guard(T& lock) : lock(lock) { lock.lock(); }
+        ~lock_guard() { lock.unlock(); }
 
     private:
         lock_guard(const lock_guard&);
