@@ -7,10 +7,11 @@
 #include "thread_error.hpp"
 
 #include <pthread.h>
-#include <sys/time.h>
+#include <sys/time.h> // struct timespec, struct timeval, gettimeofday()
 
 #include <cassert>
 #include <cerrno>
+#include <ctime> // time_t
 
 namespace ft
 {
@@ -93,7 +94,7 @@ namespace ft
             }
         }
 
-        bool wait_for(mutex& lock, ::time_t timeout, long nanos)
+        bool wait_for(mutex& lock, std::time_t timeout, long nanos)
         {
             struct ::timeval tv;
             struct ::timespec ts;
@@ -104,7 +105,7 @@ namespace ft
         }
 
         template <typename TPredicate>
-        bool wait_for(mutex& lock, ::time_t timeout, long nanos, TPredicate pred)
+        bool wait_for(mutex& lock, std::time_t timeout, long nanos, TPredicate pred)
         {
             struct ::timeval tv;
             struct ::timespec ts;
