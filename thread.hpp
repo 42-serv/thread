@@ -78,9 +78,22 @@ namespace ft
                 that.thread = t;
             }
 
+            // explicit operator bool
+            void unspecified_bool_type_func() const {}
+            typedef void (thread::*unspecified_bool_type)() const;
+            operator unspecified_bool_type() const throw()
+            {
+                return !this->is_init() ? NULL : &this_type::unspecified_bool_type_func;
+            }
+
         public:
             friend bool operator==(const id& lhs, const id& rhs)
             {
+                if (!lhs.init && !rhs.init)
+                {
+                    return true;
+                }
+
                 return lhs.init == rhs.init && ::pthread_equal(lhs.thread, rhs.thread) != 0;
             }
 
