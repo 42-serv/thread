@@ -80,10 +80,10 @@ namespace ft
 
             // explicit operator bool
             void unspecified_bool_type_func() const {}
-            typedef void (thread::*unspecified_bool_type)() const;
+            typedef void (thread::id::*unspecified_bool_type)() const;
             operator unspecified_bool_type() const throw()
             {
-                return !this->is_init() ? NULL : &this_type::unspecified_bool_type_func;
+                return !this->is_init() ? NULL : &thread::id::unspecified_bool_type_func;
             }
 
         public:
