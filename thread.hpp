@@ -124,8 +124,7 @@ namespace ft
             assert(!this->joinable());
         }
 
-        template <typename TFunc, typename T>
-        void start(TFunc f, T arg)
+        thread& start(void* (*f)(void*), void* arg)
         {
             if (this->key.is_init())
             {
@@ -133,12 +132,14 @@ namespace ft
             }
 
             id::native_type thread;
-            const int e = ::pthread_create(&thread, NULL, reinterpret_cast<void* (*)(void*)>(f), reinterpret_cast<void*>(arg));
+            const int e = ::pthread_create(&thread, NULL, f, arg);
             if (e != 0)
             {
                 throw thread_error(e, "pthread_create");
             }
             this->key.set(thread);
+
+            return *this;
         }
 
         bool joinable() throw()
