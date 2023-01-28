@@ -90,8 +90,12 @@ namespace ft
         {
             while (!pred())
             {
-                this->wait_until(lock, abs_time);
+                if (!this->wait_until(lock, abs_time))
+                {
+                    return false;
+                }
             }
+            return true;
         }
 
         bool wait_for(mutex& lock, std::time_t timeout, long nanos)
