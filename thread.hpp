@@ -7,9 +7,8 @@
 
 #include <pthread.h>
 
-#include <stdexcept>
-
 #include <cassert>
+#include <stdexcept>
 
 namespace ft
 {
