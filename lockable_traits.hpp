@@ -50,6 +50,6 @@ namespace ft
     struct is_try_lockable
     {
         static const bool value = is_lockable<T>::value &&
-                                  _internal::has_member_is_lock<T>::value;
+                                  _internal::has_member_try_lock<T>::value;
     };
 }
